@@ -1,0 +1,439 @@
+/**
+ * Tag-Press – Basis-Stylesheet
+ *
+ * Dieses Stylesheet definiert das visuelle Layout für Tag-Press.
+ * Es übersetzt die abstrakten Zonen und Objekttypen in konkrete Darstellung.
+ *
+ * WICHTIG:
+ * - Das Stylesheet trifft KEINE semantischen Entscheidungen
+ * - Es kennt KEINE Inhalte
+ * - Es reagiert nur auf die vom Grid-Master zugewiesenen Klassen
+ *
+ * @author Rob de Roy
+ * @version 0.1
+ * @license MIT
+ */
+
+/* ============================================
+   CSS Custom Properties (Design Tokens)
+   ============================================ */
+
+:root {
+    /* Farben */
+    --color-bg-primary: #0f0f23;
+    --color-bg-secondary: #1a1a2e;
+    --color-bg-tertiary: #16213e;
+    --color-accent: #e94560;
+    --color-accent-light: #ff6b6b;
+    --color-text-primary: #eee;
+    --color-text-secondary: #aaa;
+    --color-text-muted: #666;
+    --color-border: #333;
+
+    /* Typografie */
+    --font-primary: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Fira Code', 'Courier New', monospace;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 2rem;
+    --font-size-xxl: 3.5rem;
+    --line-height: 1.6;
+
+    /* Abstände */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 6rem;
+
+    /* Layout */
+    --container-max-width: 1200px;
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+}
+
+/* ============================================
+   Reset & Grundlagen
+   ============================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height);
+    color: var(--color-text-primary);
+    background: var(--color-bg-primary);
+    min-height: 100vh;
+}
+
+/* ============================================
+   Tag-Press Hauptcontainer
+   ============================================ */
+
+.tag-press-main {
+    width: 100%;
+}
+
+/* ============================================
+   Zonen-Styling
+   ============================================ */
+
+.zone {
+    width: 100%;
+    padding: var(--spacing-lg) var(--spacing-md);
+}
+
+/* Z1 - Hero Zone */
+.zone.Z1,
+.zone-hero {
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+    padding: var(--spacing-xl) var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.zone.Z1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(233, 69, 96, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Z2 - Hauptinhaltsbereich */
+.zone.Z2,
+.zone-main {
+    background: var(--color-bg-primary);
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Z3 - Sekundärbereich */
+.zone.Z3,
+.zone-secondary {
+    background: var(--color-bg-secondary);
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+}
+
+.flow-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+/* Z4 - Abschlussbereich */
+.zone.Z4,
+.zone-footer {
+    background: linear-gradient(135deg, var(--color-bg-tertiary) 0%, var(--color-bg-secondary) 100%);
+    text-align: center;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+}
+
+.highlight-section {
+    border: 1px solid var(--color-border);
+}
+
+/* ============================================
+   Objekt-Styling
+   ============================================ */
+
+.object {
+    position: relative;
+}
+
+/* Bild-Objekte */
+.object-image {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+}
+
+.object-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--border-radius);
+    object-fit: cover;
+}
+
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+.img-cover {
+    object-fit: cover;
+}
+
+/* Text-Objekte */
+.object-text {
+    max-width: 800px;
+}
+
+.object-text.role-heading {
+    font-size: var(--font-size-xxl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.object-text.role-subheading {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.object-text.role-intro {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    max-width: 600px;
+}
+
+.object-text.role-paragraph {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    background: var(--color-bg-tertiary);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    border-left: 3px solid var(--color-accent);
+}
+
+.object-text.role-note {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    padding: var(--spacing-sm);
+    background: var(--color-bg-secondary);
+    border-radius: var(--border-radius);
+}
+
+/* Listen-Objekte */
+.object-list {
+    list-style-position: inside;
+    padding-left: var(--spacing-sm);
+}
+
+.object-list li {
+    padding: var(--spacing-xs) 0;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.object-list li:last-child {
+    border-bottom: none;
+}
+
+.list-styled {
+    list-style: none;
+}
+
+.list-styled li::before {
+    content: '→ ';
+    color: var(--color-accent);
+    font-weight: bold;
+}
+
+/* Aktions-Objekte */
+.object-action {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all var(--transition-speed) ease;
+}
+
+.action-link {
+    color: var(--color-accent);
+    border-bottom: 2px solid transparent;
+}
+
+.action-link:hover {
+    color: var(--color-accent-light);
+    border-bottom-color: var(--color-accent-light);
+}
+
+.action-button {
+    background: var(--color-accent);
+    color: var(--color-text-primary);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    font-family: var(--font-primary);
+}
+
+.action-button:hover {
+    background: var(--color-accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+
+.tag-press-footer {
+    text-align: center;
+    padding: var(--spacing-lg) var(--spacing-md);
+    background: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+.tag-press-footer a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+.tag-press-footer a:hover {
+    color: var(--color-accent-light);
+}
+
+.tag-press-footer strong {
+    color: var(--color-text-secondary);
+}
+
+/* ============================================
+   Responsive Anpassungen
+   ============================================ */
+
+@media (max-width: 1024px) {
+    :root {
+        --font-size-xxl: 2.5rem;
+        --font-size-xl: 1.75rem;
+    }
+
+    .zone {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --font-size-xxl: 2rem;
+        --font-size-xl: 1.5rem;
+        --spacing-lg: 3rem;
+    }
+
+    .zone.Z1 {
+        min-height: 400px;
+    }
+
+    .grid-cols-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --font-size-xxl: 1.75rem;
+        --font-size-xl: 1.25rem;
+        --spacing-md: 1.5rem;
+    }
+}
+
+/* ============================================
+   Utility-Klassen
+   ============================================ */
+
+.full-width {
+    width: 100%;
+}
+
+.container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.prose {
+    max-width: 65ch;
+}
+
+.bg-gradient {
+    background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-bg-tertiary));
+}
+
+/* ============================================
+   Entwickler-Kommentare (für Debugging)
+   ============================================ */
+
+/* Zonen-Markierung für Entwicklung */
+[data-zone]::after {
+    content: attr(data-zone);
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--color-text-muted);
+    opacity: 0;
+    transition: opacity var(--transition-speed);
+}
+
+[data-zone]:hover::after {
+    opacity: 0.5;
+}
+
+/* Objekt-Markierung für Entwicklung */
+[data-object]::before {
+    content: attr(data-object);
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+    opacity: 0;
+    background: var(--color-bg-primary);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    transition: opacity var(--transition-speed);
+}
+
+[data-object]:hover::before {
+    opacity: 0.7;
+}

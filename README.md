@@ -98,14 +98,15 @@ Eine Zone ist ein **semantischer Raum** mit klarer Funktion. Ihre Bedeutung ist 
 
 ### Objekttypen
 
-Das System beschränkt sich bewusst auf wenige, klar definierte Typen:
 
-| Typ | Pflicht | Optional |
-|-----|---------|----------|
-| `image` | src, alt | title, caption |
-| `text` | content, role | - |
-| `list` | items | list_type |
-| `action` | label, href | action_type |
+Das System beschränkt sich bewusst auf wenige, klar definierte Typen. Die Attribute und Werte sind formal festgelegt:
+
+| Typ      | Pflichtattribute         | Optionale Attribute | Werte/Details |
+|----------|-------------------------|---------------------|---------------|
+| `image`  | src (url), alt (string, min 5 Zeichen) | title (string), caption (string) | alt darf nicht Dateiname sein |
+| `text`   | content (string), role (enum) | - | role: heading, subheading, intro, paragraph, note |
+| `list`   | items (array, min 1)    | list_type (enum)    | list_type: ordered, unordered |
+| `action` | label (string), href (url) | action_type (enum) | action_type: link, button |
 
 **Wichtig:** Ein Bildobjekt ohne Alt-Text existiert in Tag-Press nicht!
 

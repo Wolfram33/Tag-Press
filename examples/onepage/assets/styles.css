@@ -1,13 +1,93 @@
 /**
- * Tag-Press – Onepage Stylesheet
+ * Tag-Press – Onepage Demo Stylesheet
  *
- * Spezielle Styles für Onepage-Websites.
- * Ergänzt das Basis-Stylesheet (styles.css).
+ * Vollständiges Stylesheet für die Onepage-Demo.
+ * Enthält Basis-Styles und Onepage-spezifische Komponenten.
  *
  * @author Rob de Roy
  * @version 0.1
  * @license MIT
  */
+
+/* ============================================
+   CSS Custom Properties (Design Tokens)
+   ============================================ */
+
+:root {
+    /* Farben */
+    --color-bg-primary: #0f0f23;
+    --color-bg-secondary: #1a1a2e;
+    --color-bg-tertiary: #16213e;
+    --color-accent: #e94560;
+    --color-accent-light: #ff6b6b;
+    --color-text-primary: #eee;
+    --color-text-secondary: #aaa;
+    --color-text-muted: #666;
+    --color-border: #333;
+
+    /* Typografie */
+    --font-primary: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Fira Code', 'Courier New', monospace;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 2rem;
+    --font-size-xxl: 3.5rem;
+    --line-height: 1.6;
+
+    /* Abstände */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 6rem;
+
+    /* Layout */
+    --container-max-width: 1200px;
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+}
+
+/* ============================================
+   Reset & Grundlagen
+   ============================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height);
+    color: var(--color-text-primary);
+    background: var(--color-bg-primary);
+    min-height: 100vh;
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color var(--transition-speed) ease;
+}
+
+a:hover {
+    color: var(--color-accent-light);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 
 /* ============================================
    Onepage Navigation

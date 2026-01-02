@@ -1,15 +1,19 @@
 <?php
 /**
- * Tag-Press – Onepage Einstiegspunkt
+ * Tag-Press – Onepage Demo
  *
- * Diese Datei ist der Interpreter für Onepage-Websites.
- * Sie nutzt die Tag-Press Logik mit einer speziellen Onepage-Geometrie.
+ * Diese Datei ist ein eigenständiges Demo-Beispiel für eine Onepage-Website,
+ * die die Tag-Press Logik verwendet.
  *
- * Funktionsweise:
- * 1. Lädt die Onepage-Geometrie
- * 2. Lädt alle Datenobjekte aus daten/onepage/
- * 3. Rendert alle Sektionen auf einer einzigen Seite
- * 4. Fügt eine sticky Navigation hinzu
+ * Dieses Demo ist vollständig in sich geschlossen und kann unabhängig
+ * vom Hauptprojekt ausgeführt werden.
+ *
+ * Struktur:
+ * - examples/onepage/
+ *   ├── index.php          (diese Datei)
+ *   ├── assets/styles.css  (Onepage-Styles)
+ *   ├── struktur/geometrie.php (Semantische Geometrie)
+ *   └── daten/*.php        (Datenobjekte)
  *
  * @author Rob de Roy
  * @version 0.1
@@ -22,8 +26,11 @@ declare(strict_types=1);
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-// Lade zentrale Konfiguration
-require_once __DIR__ . '/config/Config.php';
+// Demo-Version Konstante
+define('TAG_PRESS_VERSION', '0.1');
+
+// Basis-Verzeichnis für dieses Demo
+define('ONEPAGE_ROOT', __DIR__ . '/');
 
 /**
  * Onepage-Klasse
@@ -49,7 +56,7 @@ class OnepageRenderer
      */
     private function loadGeometry(): void
     {
-        $geometryPath = m('struktur', 'onepage_geometrie.php');
+        $geometryPath = ONEPAGE_ROOT . 'struktur/geometrie.php';
         
         if (!file_exists($geometryPath)) {
             throw new Exception("Onepage-Geometrie nicht gefunden: {$geometryPath}");
@@ -63,7 +70,7 @@ class OnepageRenderer
      */
     private function loadObjects(): void
     {
-        $dataPath = m('daten') . 'onepage/';
+        $dataPath = ONEPAGE_ROOT . 'daten/';
         
         if (!is_dir($dataPath)) {
             throw new Exception("Onepage-Datenverzeichnis nicht gefunden: {$dataPath}");
@@ -330,9 +337,8 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Tag-Press Onepage v{$version}">
     <meta name="description" content="Eine moderne Onepage-Website erstellt mit Tag-Press">
-    <title>Tag-Press Onepage</title>
+    <title>Tag-Press Onepage Demo</title>
     <link rel="stylesheet" href="assets/styles.css">
-    <link rel="stylesheet" href="assets/onepage.css">
 </head>
 <body class="onepage">
 {$content}

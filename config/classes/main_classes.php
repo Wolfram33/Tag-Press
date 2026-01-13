@@ -17,7 +17,7 @@
  * - TagPress: Orchestriert den gesamten Prozess
  *
  * @author Rob de Roy
- * @version 0.1
+ * @version 0.2
  * @license MIT
  */
 
@@ -310,8 +310,12 @@ class Renderer
     {
         $zoneDef = $page['zones'][$zoneId];
         $zoneClasses = $this->gridMaster['zones'][$zoneId] ?? '';
+        
+        // ARIA-Label für bessere Barrierefreiheit
+        $meaning = htmlspecialchars($zoneDef['meaning'], ENT_QUOTES, 'UTF-8');
+        $ariaLabel = "aria-label=\"{$meaning}\"";
 
-        $html = "<section class=\"zone {$zoneId} {$zoneClasses}\" data-zone=\"{$zoneId}\">\n";
+        $html = "<section class=\"zone {$zoneId} {$zoneClasses}\" {$ariaLabel} data-zone=\"{$zoneId}\">\n";
 
         // Semantische Bedeutung als Kommentar für Entwickler
         $html .= "  <!-- {$zoneDef['meaning']} -->\n";
@@ -349,8 +353,13 @@ class Renderer
     private function renderImage(string $objectId, array $data, string $classes): string
     {
         $src = htmlspecialchars($data['src'], ENT_QUOTES, 'UTF-8');
-        $alt = htmlspecialchars($data['alt'], ENT_QUOTES, 'UTF-8');
+        $alt = htmlspecialchars($data['alt'] ?? '', ENT_QUOTES, 'UTF-8');
         $title = isset($data['title']) ? htmlspecialchars($data['title'], ENT_QUOTES, 'UTF-8') : '';
+        
+        // Warnung wenn Alt-Text fehlt (für Barrierefreiheit kritisch)
+        if (empty($alt)) {
+            $alt = ''; // Dekoratives Bild, leerer Alt-Text ist korrekt
+        }
 
         $html = "  <figure class=\"object object-image {$classes}\" data-object=\"{$objectId}\">\n";
         $html .= "    <img src=\"{$src}\" alt=\"{$alt}\"";
@@ -423,13 +432,21 @@ class Renderer
         $label = htmlspecialchars($data['label'], ENT_QUOTES, 'UTF-8');
         $href = htmlspecialchars($data['href'], ENT_QUOTES, 'UTF-8');
         $actionType = $data['action_type'] ?? 'link';
+        
+        // ARIA-Label für bessere Beschreibung wenn vorhanden
+        $ariaLabel = isset($data['aria_label']) ? htmlspecialchars($data['aria_label'], ENT_QUOTES, 'UTF-8') : '';
+        $ariaAttr = $ariaLabel ? " aria-label=\"{$ariaLabel}\"" : '';
 
         if ($actionType === 'button') {
-            $html = "  <button class=\"object object-action action-button {$classes}\" data-object=\"{$objectId}\">\n";
+            $html = "  <button class=\"object object-action action-button {$classes}\" data-object=\"{$objectId}\"{$ariaAttr}>\n";
             $html .= "    {$label}\n";
             $html .= "  </button>\n";
         } else {
-            $html = "  <a href=\"{$href}\" class=\"object object-action action-link {$classes}\" data-object=\"{$objectId}\">\n";
+            // Externe Links mit rel="noopener noreferrer" für Sicherheit
+            $isExternal = strpos($href, 'http') === 0 && strpos($href, $_SERVER['HTTP_HOST'] ?? '') === false;
+            $relAttr = $isExternal ? ' rel="noopener noreferrer"' : '';
+            
+            $html = "  <a href=\"{$href}\" class=\"object object-action action-link {$classes}\" data-object=\"{$objectId}\"{$ariaAttr}{$relAttr}>\n";
             $html .= "    {$label}\n";
             $html .= "  </a>\n";
         }

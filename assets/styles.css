@@ -10,7 +10,7 @@
  * - Es reagiert nur auf die vom Grid-Master zugewiesenen Klassen
  *
  * @author Rob de Roy
- * @version 0.1
+ * @version 0.2
  * @license MIT
  */
 
@@ -19,7 +19,7 @@
    ============================================ */
 
 :root {
-    /* Farben */
+    /* Farben - WCAG AA konform */
     --color-bg-primary: #0f0f23;
     --color-bg-secondary: #1a1a2e;
     --color-bg-tertiary: #16213e;
@@ -27,8 +27,12 @@
     --color-accent-light: #ff6b6b;
     --color-text-primary: #eee;
     --color-text-secondary: #aaa;
-    --color-text-muted: #666;
+    --color-text-muted: #888;  /* Verbessert von #666 für besseren Kontrast */
     --color-border: #333;
+    
+    /* Accessibility Farben */
+    --color-focus: #4a9eff;
+    --color-focus-outline: rgba(74, 158, 255, 0.5);
 
     /* Typografie */
     --font-primary: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -69,6 +73,21 @@ html {
     font-size: 16px;
 }
 
+/* Respektiere Nutzer-Präferenz für reduzierte Bewegung */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
 body {
     font-family: var(--font-primary);
     font-size: var(--font-size-base);
@@ -76,6 +95,105 @@ body {
     color: var(--color-text-primary);
     background: var(--color-bg-primary);
     min-height: 100vh;
+}
+
+/* ============================================
+   Barrierefreiheit (Accessibility)
+   ============================================ */
+
+/* Skip Links - nur sichtbar bei Keyboard-Focus */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    z-index: 10000;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--color-accent);
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 0 0 var(--border-radius) 0;
+    transition: top var(--transition-speed) ease;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+}
+
+/* Verbesserte Focus-States für alle interaktiven Elemente */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--color-focus-outline);
+}
+
+/* Focus-visible Support (nur bei Keyboard-Navigation) */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--color-focus-outline);
+}
+
+/* Screen Reader Only Content */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Keyboard-Navigation sichtbar machen */
+*:focus {
+    scroll-margin-top: var(--spacing-lg);
+}
+
+/* Verbesserte Link-Erkennbarkeit */
+a {
+    color: var(--color-accent-light);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    transition: color var(--transition-speed) ease;
+}
+
+a:hover,
+a:focus {
+    color: var(--color-accent);
+    text-decoration-thickness: 3px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    :root {
+        --color-text-primary: #fff;
+        --color-text-secondary: #ddd;
+        --color-border: #666;
+    }
+    
+    a {
+        text-decoration-thickness: 3px;
+    }
 }
 
 /* ============================================
@@ -301,12 +419,34 @@ body {
     cursor: pointer;
     font-size: var(--font-size-base);
     font-family: var(--font-primary);
+    min-height: 44px; /* Touch-Target Größe für mobile Geräte (WCAG 2.5.5) */
+    min-width: 44px;
 }
 
 .action-button:hover {
     background: var(--color-accent-light);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
+}
+
+.action-button:active {
+    transform: translateY(0);
+}
+
+/* Verbesserte Zugänglichkeit für Buttons */
+.action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Größeres Touch-Target für Links auf mobilen Geräten */
+@media (max-width: 768px) {
+    .action-link {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
 }
 
 /* ============================================

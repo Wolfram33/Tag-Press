@@ -43,6 +43,9 @@ Jede Seite muss vor Rendering vollständig validiert werden. Fehler sind keine W
 ### 5. Minimalismus
 Nur das Nötigste. Erweiterungen nur durch explizite, dokumentierte Regeln.
 
+### 6. Barrierefreiheit von Anfang an
+Tag-Press generiert semantisches, WCAG 2.1 AA konformes HTML mit vollständiger Keyboard-Navigation, ARIA-Support und Screen Reader Optimierung. [Mehr Details →](ACCESSIBILITY.md)
+
 ---
 
 ## Verzeichnisstruktur

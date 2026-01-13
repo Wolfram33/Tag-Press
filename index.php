@@ -15,7 +15,7 @@
  * Sie ist ein Orchestrator, kein Template.
  *
  * @author Rob de Roy
- * @version 0.1
+ * @version 0.2
  * @license MIT
  * @link https://robderoy.de
  */
@@ -85,11 +85,16 @@ function outputDocument(string $content, string $pageId, bool $showDebug = false
     <link rel="stylesheet" href="{$cssPath}">
 </head>
 <body data-page="{$pageId}">
-    <main class="tag-press-main">
+    <!-- Skip Links für Barrierefreiheit -->
+    <a href="#main-content" class="skip-link">Zum Hauptinhalt springen</a>
+    <a href="#footer-content" class="skip-link">Zum Footer springen</a>
+    
+    <main id="main-content" class="tag-press-main" role="main" aria-label="Hauptinhalt">
 {$content}
     </main>
-    <footer class="tag-press-footer">
-        <p>Powered by <strong>Tag-Press</strong> v{$version} | Ein Projekt von <a href="https://robderoy.de">Rob de Roy</a></p>
+    
+    <footer id="footer-content" class="tag-press-footer" role="contentinfo" aria-label="Seiten-Footer">
+        <p>Powered by <strong>Tag-Press</strong> v{$version} | Ein Projekt von <a href="https://robderoy.de" rel="noopener noreferrer">Rob de Roy</a></p>
     </footer>
 {$debugHtml}
 </body>
